@@ -119,7 +119,7 @@ function rubiesToQA(startHS, targetZone) {
         let a = ascensionList[i]
         if (a[0] >= startHS) {
             if (a[1] > targetZone) { break; }
-            rubyTotal += 50;
+            rubyTotal += 500;
         }
     }
     return rubyTotal;
