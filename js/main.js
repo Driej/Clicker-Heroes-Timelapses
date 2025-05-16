@@ -419,7 +419,7 @@ function getNextTL(startingZone) {
         duration = "168h";
         zonesGained = Math.min(756000, zonesGained);
         rubyCost = 500;
-    } else if ((zonesGained >= 144000) && (userData.minZones <= 216000) && (needed >= 108000)) {
+    } else if ((zonesGained >= 162000) && (userData.minZones <= 216000) && (needed >= 108000)) {
         duration = "48h";
         zonesGained = Math.min(216000, zonesGained);
         rubyCost = 300;
