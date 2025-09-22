@@ -1,4 +1,4 @@
-var CACHE_NAME = 'timelapses-cache-v47';
+var CACHE_NAME = 'timelapses-cache-v48';
 var urlsToCache = [
     '.',
     'css/dark-theme-v003.css',
@@ -12,6 +12,7 @@ var urlsToCache = [
 ];
 
 self.addEventListener('install', function(event) {
+    self.skipWaiting();
     event.waitUntil(
         caches.open(CACHE_NAME).then(function(cache) {
             return cache.addAll(urlsToCache);
@@ -41,18 +42,16 @@ self.addEventListener('fetch', function(event) {
     );
 });
 
-self.addEventListener('activate', function(event) {
+self.addEventListener('activate', event => {
     event.waitUntil(
-        caches.keys().then(function(cacheNames) {
-            return Promise.all(
-                cacheNames.filter(function(cacheName) {
-                    if (cacheName.slice(0,16) == "timelapses-cache") {
-                        if (cacheName !== CACHE_NAME) return true;
-                    }
-                }).map(function(cacheName) {
-                    return caches.delete(cacheName);
-                })
-            )
-        })
+        (async () => {
+            await clients.claim();
+            const cacheNames = await caches.keys();
+            await Promise.all(
+                cacheNames
+                    .filter(name => name.startsWith('timelapses-cache') && name !== CACHE_NAME)
+                    .map(name => caches.delete(name))
+            );
+        })()
     );
 });
